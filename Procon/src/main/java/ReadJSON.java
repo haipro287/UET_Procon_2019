@@ -17,7 +17,6 @@ public class ReadJSON {
             Object obj = jsonParser.parse(reader);
             JSONObject result = (JSONObject) obj;
 
-            System.out.println(result);
             parseResult(result);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

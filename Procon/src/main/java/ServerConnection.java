@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ServerConnection {
 
     public static void GetJSON(String host, String token, String matchID) throws IOException{
-        URL url = new URL (host + "/matches/" + matchID);
+        URL url = new URL ("http://" + host + "/matches/" + matchID);
 
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
@@ -33,7 +33,7 @@ public class ServerConnection {
     }
 
     public static void PostJSON(String host, String token, String matchID) throws IOException{
-        URL url = new URL (host + "/matches/" + matchID + "/action");
+        URL url = new URL ("http://" + host + "/matches/" + matchID + "/action");
 
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("POST");
@@ -72,7 +72,7 @@ public class ServerConnection {
         String token = sc.nextLine();
         System.out.println("Enter matchID:");
         String matchID = sc.nextLine();
-        ServerConnection.PostJSON(host, token, matchID );
+        ServerConnection.GetJSON(host, token, matchID );
     }
 
 }
