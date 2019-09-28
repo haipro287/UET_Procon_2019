@@ -27,7 +27,7 @@ public class WriteJSON {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  result.toJSONString();
+        return result.toJSONString();
     }
     public static void main(String[] args) {
         ArrayList<Action> actions = new ArrayList<Action>();

@@ -9,15 +9,16 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 public class ReadJSON {
-    private static Map map = new Map();
-    public static void readJSON(String sysRepl) {
+//    private static Map map = new Map();
+    public static Map readJSON(String sysRepl) {
         JSONParser jsonParser = new JSONParser();
-
+        Map map = null;
         try (StringReader reader = new StringReader(sysRepl)) {
             Object obj = jsonParser.parse(reader);
             JSONObject result = (JSONObject) obj;
 
-            parseResult(result);
+            map = parseResult(result);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -25,8 +26,10 @@ public class ReadJSON {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return map;
     }
-    private static void parseResult(JSONObject result) {
+    private static Map parseResult(JSONObject result) {
+        Map map = new Map();
         //get width/height from JSON
         map.setWidth(Integer.parseInt(result.get("width").toString()));
         map.setHeight(Integer.parseInt(result.get("height").toString()));
@@ -105,10 +108,11 @@ public class ReadJSON {
             ));
         }
 
-        System.out.println(map.toString());
+//        System.out.println(map.toString());
+        return map;
     }
     public static void main(String[] args) {
-        String sysRepl = "sysRepl_turn" + Integer.toString(map.getTurn()+1) + ".json";
-        readJSON(sysRepl);
+//        String sysRepl = "sysRepl_turn" + Integer.toString(map.getTurn()+1) + ".json";
+//        readJSON(sysRepl);
     }
 }

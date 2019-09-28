@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ServerConnection {
 
-    public static void GetJSON(String host, String token, String matchID) throws IOException{
+    public static Map GetJSON(String host, String token, String matchID) throws IOException{
         URL url = new URL ("http://" + host + "/matches/" + matchID);
 
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -19,7 +19,7 @@ public class ServerConnection {
         con.setRequestProperty("Accept", "application/json");
 
         int code = con.getResponseCode();
-        System.out.println(code);
+//        System.out.println(code);
 
         try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))){
             StringBuilder response = new StringBuilder();
@@ -28,7 +28,8 @@ public class ServerConnection {
                 response.append(responseLine.trim());
             }
             System.out.println(response.toString());
-            ReadJSON.readJSON(response.toString());
+//            System.out.println(ReadJSON.readJSON(response.toString()));
+            return ReadJSON.readJSON(response.toString());
         }
     }
 
@@ -52,7 +53,7 @@ public class ServerConnection {
         }
 
         int code = con.getResponseCode();
-        System.out.println(code);
+//        System.out.println(code);
 
         try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))){
             StringBuilder response = new StringBuilder();
@@ -60,7 +61,7 @@ public class ServerConnection {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
+//            System.out.println(response.toString());
         }
     }
 

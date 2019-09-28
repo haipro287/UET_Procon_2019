@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3929b43a-2b2e-426b-a5b1-4105f18a9e05" name="Default Changelist" comment="" />
+    <list default="true" id="3929b43a-2b2e-426b-a5b1-4105f18a9e05" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Panel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ReadJSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ReadJSON.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerConnection.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +35,7 @@
   <component name="ProjectId" id="1RBQ7CSk118P0at5WCURyVAHmFX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -47,7 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.ServerConnection">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Procon" />
@@ -85,9 +91,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.ServerConnection" />
         <item itemvalue="Application.PostJSONWithHttpURLConnection" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.WriteJSON" />
         <item itemvalue="Application.ReadJSON" />
       </list>
@@ -111,7 +117,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
