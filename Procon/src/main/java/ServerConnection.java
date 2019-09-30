@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ServerConnection {
@@ -14,7 +15,7 @@ public class ServerConnection {
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("GET");
 
-        con.setRequestProperty("Authorization", "procon30_example_token");
+        con.setRequestProperty("Authorization", token);
         con.setRequestProperty("Content-Type", "application/json");
         con.setRequestProperty("Accept", "application/json");
 
@@ -38,7 +39,7 @@ public class ServerConnection {
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("POST");
 
-        con.setRequestProperty("Authorization", "procon30_example_token");
+        con.setRequestProperty("Authorization", token);
         con.setRequestProperty("Content-Type", "application/json");
         con.setRequestProperty("Accept", "application/json");
 
@@ -47,7 +48,7 @@ public class ServerConnection {
         String jsonInputString = "{\"actions\":[{\"agentID\":2,\"dx\":0,\"dy\":0,\"type\":\"stay\"},{\"agentID\":3,\"dx\":0,\"dy\":0,\"type\":\"stay\"}]}";
 
         try(OutputStream os = con.getOutputStream()){
-            byte[] input = jsonInputString.getBytes("utf-8");
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
         }
 
