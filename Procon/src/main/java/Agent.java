@@ -47,4 +47,6 @@ public class Agent {
                 ", y=" + y +
                 '}';
     }
+    // TODO: Add action json
+    // TODO: Check if an agent is on a certain tile
 }
