@@ -38,6 +38,16 @@ public class Team {
         this.areaPoint = areaPoint;
     }
 
+    public String getInputActionString() {
+        String jsonActionInputStr = "{\"actions\":[";
+        for (int i = 0; i < agents.size(); i++) {
+            jsonActionInputStr += agents.get(i).getActionString();
+            if (i < agents.size() - 1) jsonActionInputStr += ",";
+        }
+        jsonActionInputStr += "]}";
+        return jsonActionInputStr;
+    }
+
     public Team() {
         this.teamID = 0;
         this.agents = new ArrayList<Agent>();

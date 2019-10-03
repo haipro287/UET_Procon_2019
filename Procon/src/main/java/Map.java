@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public class Map {
     private int width;
     private int height;
-    private ArrayList<ArrayList<Integer>> points;
+
     private int startedAtUnixTime;
     private int turn;
-    private ArrayList<ArrayList<Integer>> tiled;
     private ArrayList<Team> teams;
     private ArrayList<Action> actions;
+    private ArrayList<ArrayList<Tile>> tiles;
 
     public int getWidth() {
         return width;
@@ -26,12 +26,12 @@ public class Map {
         this.height = height;
     }
 
-    public ArrayList<ArrayList<Integer>> getPoints() {
-        return points;
+    public void setTiles(ArrayList<ArrayList<Tile>> tiles) {
+        this.tiles = tiles;
     }
 
-    public void setPoints(ArrayList<ArrayList<Integer>> points) {
-        this.points = points;
+    public ArrayList<ArrayList<Tile>> getTiles() {
+        return tiles;
     }
 
     public int getStartedAtUnixTime() {
@@ -48,14 +48,6 @@ public class Map {
 
     public void setTurn(int turn) {
         this.turn = turn;
-    }
-
-    public ArrayList<ArrayList<Integer>> getTiled() {
-        return tiled;
-    }
-
-    public void setTiled(ArrayList<ArrayList<Integer>> tiled) {
-        this.tiled = tiled;
     }
 
     public ArrayList<Team> getTeams() {
@@ -79,10 +71,8 @@ public class Map {
         return "Map{" +
                 "width=" + width +
                 ", height=" + height +
-                ", points=" + points +
                 ", startedAtUnixTime=" + startedAtUnixTime +
                 ", turn=" + turn +
-                ", tiled=" + tiled +
                 ", teams=" + teams +
                 ", actions=" + actions +
                 '}';
