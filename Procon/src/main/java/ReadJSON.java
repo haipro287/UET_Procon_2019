@@ -3,13 +3,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
 public class ReadJSON {
 //    private static Map map = new Map();
+    //read system reply json from : /matches/{ID}
     public static Map readJSON(String sysRepl) {
         JSONParser jsonParser = new JSONParser();
         Map map = null;
@@ -19,15 +20,12 @@ public class ReadJSON {
 
             map = parseResult(result);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return map;
     }
+
     private static Map parseResult(JSONObject result) {
         Map map = new Map();
         //get width/height from JSON
@@ -46,7 +44,7 @@ public class ReadJSON {
         }
 
         //get startedAtUnixTime
-        map.setStartedAtUnixTime(Integer.parseInt(result.get("startedAtUnixTime").toString()));
+//        map.setStartedAtUnixTime(Integer.parseInt(result.get("startedAtUnixTime").toString()));
 
         // get turn
         map.setTurn(Integer.parseInt(result.get("turn").toString()));
@@ -103,8 +101,54 @@ public class ReadJSON {
 //        System.out.println(map.toString());
         return map;
     }
+
+    //read match data from: /matches/
+    public static ArrayList<Match> readMatch(String sysRepl) {
+        ArrayList<Match> matches = new ArrayList<Match>();
+
+        JSONParser jsonParser = new JSONParser();
+        try (StringReader reader = new StringReader(sysRepl)) {
+            Object obj = jsonParser.parse(reader);
+            JSONArray array = (JSONArray) obj;
+            for (JSONObject jsonObject: (Iterable<JSONObject>) array) {
+                JSONObject match = (JSONObject) jsonObject;
+                matches.add(new Match(
+                        Integer.parseInt(match.get("id").toString()),
+                        Integer.parseInt(match.get("intervalMillis").toString()),
+                        match.get("matchTo").toString(),
+                        Integer.parseInt(match.get("teamID").toString()),
+                        Integer.parseInt(match.get("turnMillis").toString()),
+                        Integer.parseInt(match.get("turns").toString())
+                ));
+            }
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.println(matches.get(i));
+        }
+        return matches;
+    }
     public static void main(String[] args) {
-//        String sysRepl = "sysRepl_turn" + Integer.toString(map.getTurn()+1) + ".json";
-//        readJSON(sysRepl);
+        String sysRepl = "[\n" +
+                "    {\n" +
+                "        \"id\": 206,\n" +
+                "        \"intervalMillis\": 5,\n" +
+                "        \"matchTo\": \"Go Pro  -  Go Pro_test\",\n" +
+                "        \"teamID\": 244,\n" +
+                "        \"turnMillis\": 30,\n" +
+                "        \"turns\": 400\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 207,\n" +
+                "        \"intervalMillis\": 5,\n" +
+                "        \"matchTo\": \"Go Pro  -  Go Pro_test\",\n" +
+                "        \"teamID\": 244,\n" +
+                "        \"turnMillis\": 30,\n" +
+                "        \"turns\": 400\n" +
+                "    }\n" +
+                "]";
+        readMatch(sysRepl);
     }
 }

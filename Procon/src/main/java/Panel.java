@@ -19,7 +19,7 @@ public class Panel extends JPanel {
         gameMap = new Map();
     }
     private void setGameMap(String host, String token, String matchID) throws IOException {
-        gameMap = ServerConnection.GetJSON(host, token, matchID);
+        gameMap = ServerConnection.getJSON(matchID);
         if (gameMap.getTeams().get(0).getTeamID() == 9) {
             MY_TEAM = 0;
             OPPONENT_TEAM  = 1;
@@ -28,6 +28,7 @@ public class Panel extends JPanel {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
+    
     }
 
     @Override
@@ -107,7 +108,7 @@ public class Panel extends JPanel {
 
     private void takeAction(String host, String token, String matchID) throws IOException {
         String jsonInputString = "";
-        ServerConnection.PostJSON(host, token, matchID);
+        ServerConnection.postJSON(matchID);
     }
     /**
      * Each turn period (5 - 10 - 15 seconds), do as follow: connect to server and get json -> remove all component on screen
@@ -119,7 +120,7 @@ public class Panel extends JPanel {
         SET GAME MAP: Fetch API from the URL and set the value collected to gameMap.
          */
         try {
-            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "1");
+            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
         } catch (IOException e) {
             e.printStackTrace();
         }
