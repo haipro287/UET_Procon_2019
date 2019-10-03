@@ -9,15 +9,16 @@ import java.util.ArrayList;
 
 public class Panel extends JPanel {
     public static final int TURN_PERIOD = 10000;
-    Map gameMap;
-    Tile[][] tiles;
-    static Tile selectingTile = null;
+    private Map gameMap;
+    private Tile[][] tiles;
+    private static Tile selectingTile = null;
+
 
     public Panel() {
         gameMap = new Map();
     }
     private void setGameMap(String host, String token, String matchID) throws IOException {
-        gameMap = ServerConnection.GetJSON(host, token, matchID);
+        gameMap = ServerConnection.getJSON(matchID);
     }
 
     @Override
@@ -105,7 +106,7 @@ public class Panel extends JPanel {
 
     private void takeAction(String host, String token, String matchID) throws IOException {
         String jsonInputString = "";
-        ServerConnection.PostJSON(host, token, matchID);
+        ServerConnection.postJSON(matchID);
     }
     /**
      * Each turn period (5 - 10 - 15 seconds), do as follow: connect to server and get json -> remove all component on screen
@@ -117,7 +118,7 @@ public class Panel extends JPanel {
         SET GAME MAP: Fetch API from the URL and set the value collected to gameMap.
          */
         try {
-            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "1");
+            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
         } catch (IOException e) {
             e.printStackTrace();
         }
