@@ -5,11 +5,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 public class ServerConnection {
     public static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    public static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MDAzNTU3MywiZXhwIjoxNTcwMDQyNzczfQ.la0_6Pn14ZdbDkKpgwNXYnuM4zA0YRb4Sewyvp985Kk";
+    public static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTkiLCJpYXQiOjE1NzAxMTE2NTksImV4cCI6MTU3MDExODg1OX0.HG6I4fgMJG_0IJSAsyvINs-DJs6Ybdvcqxx-5X1ahvU";
 
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
@@ -125,7 +124,7 @@ public class ServerConnection {
 //        System.out.println("Enter matchID:");
 //        String matchID = sc.nextLine();
 //        ServerConnection.getJSON("206");
-            getPing();
+            getMatch();
         }
 
     }
