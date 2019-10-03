@@ -10,7 +10,7 @@ public class WriteJSON {
         JSONArray actions = new JSONArray();
         JSONObject agentDetails = new JSONObject();
         for (int i = 0; i < actionArrayList.size(); i++) {
-            agentDetails.put("agentID", actionArrayList.get(i).getAgent().getAgentID());
+            agentDetails.put("agentID", actionArrayList.get(i).getAgentID());
             agentDetails.put("type", actionArrayList.get(i).getType());
             agentDetails.put("dx", actionArrayList.get(i).getDx());
             agentDetails.put("dy", actionArrayList.get(i).getDy());

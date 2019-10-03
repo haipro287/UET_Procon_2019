@@ -1,17 +1,17 @@
 public class Action {
-    private Agent agent;
+    private int agentID;
     private String type;
     private int dx;
     private int dy;
     private int turn;
     private int apply;
 
-    public Agent getAgent() {
-        return agent;
+    public int getAgentID() {
+        return agentID;
     }
 
-    public void setAgent(Agent agent) {
-        this.agent = agent;
+    public void setAgentID(int agentID) {
+        this.agentID = agentID;
     }
 
     public String getType() {
@@ -55,32 +55,30 @@ public class Action {
     }
 
     public Action() {
-        this.agent = new Agent();
-        this.type = "stay";
-        this.dx = 0;
-        this.dy = 0;
-        this.turn = 0;
-        this.apply = 0;
+        this(0, "stay", 0, 0);
     }
 
-    public Action(Agent agent, String type, int dx, int dy, int turn, int apply) {
-        this.agent = agent;
+    public Action(int agentID) {
+        this(agentID, "stay", 0, 0);
+    }
+
+    public Action(int agentID, String type, int dx, int dy) {
+        this.agentID = agentID;
         this.type = type;
         this.dx = dx;
         this.dy = dy;
-        this.turn = turn;
-        this.apply = apply;
     }
 
     @Override
     public String toString() {
-        return "Action{" +
-                "agent=" + agent +
-                ", type='" + type + '\'' +
-                ", dx=" + dx +
-                ", dy=" + dy +
-                ", turn=" + turn +
-                ", apply=" + apply +
-                '}';
+//        return "Action{" +
+//                "agentID=" + agentID +
+//                ", type='" + type + '\'' +
+//                ", dx=" + dx +
+//                ", dy=" + dy +
+//                ", turn=" + turn +
+//                ", apply=" + apply +
+//                '}';
+        return "{\"agentID\":" + agentID + ",\"dx\":" + dx + ",\"dy\":" + dy + ",\"type\":" + type + "}";
     }
 }

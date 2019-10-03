@@ -31,14 +31,14 @@ public class ReadJSON {
         map.setWidth(Integer.parseInt(result.get("width").toString()));
         map.setHeight(Integer.parseInt(result.get("height").toString()));
 
-        // get points
+        // get tiles'points
         JSONArray points = (JSONArray) result.get("points");
-        map.setPoints(new ArrayList<ArrayList<Integer>>());
+        map.setTiles(new ArrayList<ArrayList<Tile>>());
         for(int i = 0; i < map.getHeight(); i++) {
             JSONArray array = (JSONArray) points.get(i);
-            map.getPoints().add(new ArrayList<Integer>());
+            map.getTiles().add(new ArrayList<Tile>());
             for (int j = 0; j < map.getWidth(); j++) {
-                map.getPoints().get(i).add(Integer.parseInt(array.get(j).toString()));
+                map.getTiles().get(i).add(new Tile(i + 1, j + 1, Integer.parseInt(array.get(j).toString())));
             }
         }
 
@@ -48,14 +48,12 @@ public class ReadJSON {
         // get turn
         map.setTurn(Integer.parseInt(result.get("turn").toString()));
 
-        //get tiled
+        //get tiles'occupying team
         JSONArray tiled = (JSONArray) result.get("tiled");
-        map.setTiled(new ArrayList<ArrayList<Integer>>());
         for (int i = 0; i < map.getHeight(); i++) {
             JSONArray array = (JSONArray) tiled.get(i);
-            map.getTiled().add(new ArrayList<Integer>());
             for (int j = 0; j < map.getWidth(); j++) {
-                map.getTiled().get(i).add(Integer.parseInt(array.get(j).toString()));
+                map.getTiles().get(i).get(j).setOccupyingTeam(Integer.parseInt(array.get(j).toString()));
             }
         }
 
@@ -74,11 +72,11 @@ public class ReadJSON {
             map.getTeams().get(i).setAgents(new ArrayList<Agent>());
             for (JSONObject jsonObject : (Iterable<JSONObject>) array) {
                 JSONObject agent = (JSONObject) jsonObject;
-                map.getTeams().get(i).getAgents().add(new Agent(
-                        Integer.parseInt(agent.get("agentID").toString()),
+                Agent newAgent = new Agent(Integer.parseInt(agent.get("agentID").toString()),
                         Integer.parseInt(agent.get("x").toString()),
-                        Integer.parseInt(agent.get("y").toString())
-                ));
+                        Integer.parseInt(agent.get("y").toString()));
+                map.getTeams().get(i).getAgents().add(newAgent);
+                map.getTiles().get(newAgent.getY() - 1).get(newAgent.getX() - 1).setOccupyingAgent(newAgent);
             }
 
             //get team point
@@ -92,17 +90,11 @@ public class ReadJSON {
         for (JSONObject jsonObject : (Iterable<JSONObject>) actions) {
             JSONObject action = (JSONObject) jsonObject;
             map.getActions().add(new Action(
-                    new Agent(
-                            Integer.parseInt(action.get("agentID").toString()),
-                            0,
-                            0
-                    ),
+                    0,
                     action.get("type").toString(),
                     Integer.parseInt(action.get("dx").toString()),
-                    Integer.parseInt(action.get("dy").toString()),
-                    Integer.parseInt(action.get("turn").toString()),
-                    Integer.parseInt(action.get("apply").toString())
-            ));
+                    Integer.parseInt(action.get("dy").toString())
+                    ));
         }
 
 //        System.out.println(map.toString());

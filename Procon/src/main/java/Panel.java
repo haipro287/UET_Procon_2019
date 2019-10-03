@@ -9,16 +9,26 @@ import java.util.ArrayList;
 
 public class Panel extends JPanel {
     public static final int TURN_PERIOD = 10000;
-    private Map gameMap;
-    private Tile[][] tiles;
+    Map gameMap;
+//    Tile[][] tiles;
     private static Tile selectingTile = null;
-
+    static int MY_TEAM;
+    static int OPPONENT_TEAM;
 
     public Panel() {
         gameMap = new Map();
     }
     private void setGameMap(String host, String token, String matchID) throws IOException {
         gameMap = ServerConnection.getJSON(matchID);
+        if (gameMap.getTeams().get(0).getTeamID() == 9) {
+            MY_TEAM = 0;
+            OPPONENT_TEAM  = 1;
+        }
+        else {
+            MY_TEAM = 1;
+            OPPONENT_TEAM = 0;
+        }
+    
     }
 
     @Override
@@ -29,29 +39,22 @@ public class Panel extends JPanel {
         DRAW MAP: Each tile is a button.
          */
         // FIXME: gameMap height and width is 0 for sometime, then become 10.
-//        System.out.println(gameMap.getHeight() + " " + gameMap.getWidth());
-        tiles = new Tile[gameMap.getHeight()][gameMap.getWidth()];
         for (int i = 0; i < gameMap.getHeight(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
-                tiles[i][j] = new Tile();
-                Tile tile = tiles[i][j];
-                tile.setPos(i + 1, j + 1);
-                if (gameMap.getTiled().get(i).get(j) == 0) {
+                Tile tile = gameMap.getTiles().get(i).get(j);
+                if (tile.getOccupyingTeam() == 0) {
                     tile.setBackground(Color.LIGHT_GRAY);
                 }
-                else if (gameMap.getTiled().get(i).get(j) == gameMap.getTeams().get(0).getTeamID()) {
+                else if (tile.getOccupyingTeam() == gameMap.getTeams().get(MY_TEAM).getTeamID()) {
                     tile.setBackground(Color.ORANGE);
-                    if (checkAgentPosColor(i, j, 0)) tile.setBackground(Color.RED);
+                    if (checkAgentPosColor(i, j, MY_TEAM) != 0) tile.setBackground(Color.RED); // TODO: change teamIndex to MY_TEAM
                 }
-                else if (gameMap.getTiled().get(i).get(j) == gameMap.getTeams().get(1).getTeamID()) {
+                else if (tile.getOccupyingTeam() == gameMap.getTeams().get(OPPONENT_TEAM).getTeamID()) {
                     tile.setBackground(Color.CYAN);
-                    if (checkAgentPosColor(i, j, 1)) tile.setBackground(Color.BLUE);
+                    if (checkAgentPosColor(i, j, OPPONENT_TEAM) != 0) tile.setBackground(Color.BLUE);
                 }
                 tile.setFont(new Font("Arial", Font.BOLD, 15));
-                tile.setScore(gameMap.getPoints().get(i).get(j));
                 tile.setBounds(60 * j, 60 * i, 50, 50);
-//                tile.setBorder(new LineBorder(Color.GREEN));
-                LineBorder border = new LineBorder(Color.GREEN);
 
                 int finalI = i, finalJ = j;
                 tile.addActionListener(new ActionListener() {
@@ -62,24 +65,23 @@ public class Panel extends JPanel {
                      */
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("You clicked tile (" + finalI + ", " + finalJ + ")");
-                        if (selectingTile == null) {
+//                        System.out.println("You clicked tile (" + finalI + ", " + finalJ + ")");
+                        if (selectingTile == null && checkAgentPosColor(finalI, finalJ, MY_TEAM) != 0) {
                             selectingTile = tile;
                             selectingTile.setForeground(selectingTile.getBackground());
                             selectingTile.setBackground(Color.YELLOW);
-                            System.out.println("Selecting Tile: " + selectingTile);
-                            System.out.println("This tile" + tile);
                         } else if (selectingTile == tile) {
                             selectingTile.setBackground(selectingTile.getForeground());
                             selectingTile.setForeground(Color.BLACK);
                             selectingTile = null;
-                            System.out.println("Selecting Tile: " + selectingTile);
-                            System.out.println("This tile" + tile);
-                        } else {
+                        } else if (selectingTile != null) {
                             if (tile.checkIfClose(selectingTile)) {
                                 System.out.println("It is close");
+                                selectingTile.getOccupyingAgent().setAction(selectingTile, tile);
+                                System.out.println(selectingTile.getOccupyingAgent().getActionString());
                             }
                         }
+                        System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
                     }
                 });
                 this.add(tile);            }
@@ -93,15 +95,15 @@ public class Panel extends JPanel {
      * @param teamIndex 0 for the first team, 1 for the second
      * @return true if an agent is on tile[i][j], else return false
      */
-    private boolean checkAgentPosColor(int i, int j, int teamIndex) {
+    private int checkAgentPosColor(int i, int j, int teamIndex) {
         ArrayList<Agent> teamAgents = gameMap.getTeams().get(teamIndex).getAgents();
         for (int k = 0; k < teamAgents.size(); k++) {
             Agent currentAgent = teamAgents.get(k);
             if (currentAgent.getY() == i + 1 && currentAgent.getX() == j + 1) {
-                return true;
+                return currentAgent.getAgentID();
             }
         }
-        return false;
+        return 0;
     }
 
     private void takeAction(String host, String token, String matchID) throws IOException {

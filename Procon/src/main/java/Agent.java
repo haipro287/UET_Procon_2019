@@ -2,6 +2,7 @@ public class Agent {
     private int agentID;
     private int x;
     private int y;
+    private Action action;
 
     public int getAgentID() {
         return agentID;
@@ -28,15 +29,28 @@ public class Agent {
     }
 
     public Agent() {
-        this.agentID = 0;
-        this.x = 0;
-        this.y = 0;
+        this(0, 0, 0);
+    }
+
+    public Agent(int agentID) {
+        this(agentID, 0, 0);
     }
 
     public Agent(int agentID, int x, int y) {
         this.agentID = agentID;
         this.x = x;
         this.y = y;
+        action = new Action(agentID);
+    }
+
+    public void setAction(Tile start, Tile destination) {
+        action.setDx(destination.getColIndex() - start.getColIndex());
+        action.setDy(destination.getRowIndex() - start.getRowIndex());
+        action.setType("move");
+    }
+
+    public String getActionString() {
+        return action.toString();
     }
 
     @Override
