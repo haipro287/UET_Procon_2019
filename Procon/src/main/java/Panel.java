@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Panel extends JPanel {
-    public static final int TURN_PERIOD = 10000;
+    public static final int TURN_PERIOD = 30;
     Map gameMap;
 //    Tile[][] tiles;
     private static Tile selectingTile = null;
@@ -82,6 +82,12 @@ public class Panel extends JPanel {
                             }
                         }
                         System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
+                        try {
+                            ServerConnection.postJSON(gameMap.getTeams().get(MY_TEAM).getInputActionString(), "1");
+                        }
+                        catch (IOException i) {
+                            i.printStackTrace();
+                        }
                     }
                 });
                 this.add(tile);            }
@@ -108,7 +114,7 @@ public class Panel extends JPanel {
 
     private void takeAction(String host, String token, String matchID) throws IOException {
         String jsonInputString = "";
-        ServerConnection.postJSON(matchID);
+//        ServerConnection.postJSON(matchID);
     }
     /**
      * Each turn period (5 - 10 - 15 seconds), do as follow: connect to server and get json -> remove all component on screen
@@ -120,7 +126,7 @@ public class Panel extends JPanel {
         SET GAME MAP: Fetch API from the URL and set the value collected to gameMap.
          */
         try {
-            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
+            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "1");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,7 +138,7 @@ public class Panel extends JPanel {
 //                this.removeAll();
 //                //revalidate();
 //                repaint();
-//                calculateNextStep();
+////                calculateNextStep();
 //                //takeAction()
 //                //writeJSON();
 //                lastTime = currentTime;

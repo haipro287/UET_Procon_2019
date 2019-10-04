@@ -7,8 +7,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
-    public static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    public static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTkiLCJpYXQiOjE1NzAxMTE2NTksImV4cCI6MTU3MDExODg1OX0.HG6I4fgMJG_0IJSAsyvINs-DJs6Ybdvcqxx-5X1ahvU";
+    private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MDIwMzU3MSwiZXhwIjoxNTcwMjEwNzcxfQ.THbqnl_APtimCwhrQoxrHRV_bi0fp9b1qf4EhnVnRHI";
 
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
@@ -59,8 +59,8 @@ public class ServerConnection {
         }
     }
 
-    public static void postJSON(String matchID) throws IOException {
-        URL url = new URL(host + "/matches/" + matchID + "/action");
+    public static void postJSON(String actionString, String matchID) throws IOException {
+        URL url = new URL(host + "/matches/" + "207" + "/action");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
@@ -71,7 +71,7 @@ public class ServerConnection {
 
         con.setDoOutput(true);
 
-        String jsonInputString = "{\"actions\":[{\"agentID\":2,\"dx\":0,\"dy\":0,\"type\":\"stay\"},{\"agentID\":3,\"dx\":0,\"dy\":0,\"type\":\"stay\"}]}";
+        String jsonInputString = actionString;
 
         try (OutputStream os = con.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
@@ -111,7 +111,6 @@ public class ServerConnection {
                 response.append(responseLine.trim());
             }
             System.out.println(response.toString());
-            ReadJSON.readMatch(response.toString());
         }
     }
 
@@ -124,7 +123,8 @@ public class ServerConnection {
 //        System.out.println("Enter matchID:");
 //        String matchID = sc.nextLine();
 //        ServerConnection.getJSON("206");
-            getMatch();
+            postJSON("", "1");
+//            getJSON("1");
         }
 
     }
