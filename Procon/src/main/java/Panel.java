@@ -28,7 +28,17 @@ public class Panel extends JPanel {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
-        // TODO: Clean the code, put setBackground in Tile class
+
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 900, 600);
+        /*
+        DRAW MAP: Each tile is a button.
+         */
+        // FIXME: gameMap height and width is 0 for sometime, then become 10.
         for (int i = 0; i < gameMap.getHeight(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
                 Tile tile = gameMap.getTiles().get(i).get(j);
@@ -84,17 +94,6 @@ public class Panel extends JPanel {
         }
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 900, 600);
-        /*
-        DRAW MAP: Each tile is a button.
-         */
-        // FIXME: gameMap height and width is 0 for sometime, then become 10.
-
-    }
-
     /**
      * Check if an agent is on tile[i][j]
      * @param i y-coordinate of tile
@@ -126,24 +125,24 @@ public class Panel extends JPanel {
         /*
         SET GAME MAP: Fetch API from the URL and set the value collected to gameMap.
          */
-
-        while(true) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
-                //FETCH JSON -> READ JSON -> SET GAME MAP
-                this.removeAll();
-                revalidate();
-                try {
-                    this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                repaint();
-//                calculateNextStep();
-//                takeAction("207");
-//                writeJSON();
-                lastTime = currentTime;
-            }
+        try {
+            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        repaint();
+//        while(true) {
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
+//                //FETCH JSON -> READ JSON -> SET GAME MAP
+//                this.removeAll();
+//                //revalidate();
+//                repaint();
+////                calculateNextStep();
+//                //takeAction()
+//                //writeJSON();
+//                lastTime = currentTime;
+//            }
+//        }
     }
 }
