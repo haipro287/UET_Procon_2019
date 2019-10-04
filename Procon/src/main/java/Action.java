@@ -79,6 +79,6 @@ public class Action {
 //                ", turn=" + turn +
 //                ", apply=" + apply +
 //                '}';
-        return "{\"agentID\":" + agentID + ",\"dx\":" + dx + ",\"dy\":" + dy + ",\"type\":" + type + "}";
+        return "{\"agentID\":" + agentID + ",\"dx\":" + dx + ",\"dy\":" + dy + ",\"type\":\"" + type + "\"}";
     }
 }

@@ -3,7 +3,8 @@ public class Agent {
     private int x;
     private int y;
     private Action action;
-
+    private int teamID;
+    // TODO: Add teamID property
     public int getAgentID() {
         return agentID;
     }
@@ -44,6 +45,8 @@ public class Agent {
     }
 
     public void setAction(Tile start, Tile destination) {
+        // TODO: if destination tile is other team's tile, perform deletion
+        // TODO: if other team's agent is on destination tile, notify me.
         action.setDx(destination.getColIndex() - start.getColIndex());
         action.setDy(destination.getRowIndex() - start.getRowIndex());
         action.setType("move");
@@ -61,6 +64,4 @@ public class Agent {
                 ", y=" + y +
                 '}';
     }
-    // TODO: Add action json
-    // TODO: Check if an agent is on a certain tile
 }

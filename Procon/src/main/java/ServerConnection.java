@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
     public static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    public static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTkiLCJpYXQiOjE1NzAxMTE2NTksImV4cCI6MTU3MDExODg1OX0.HG6I4fgMJG_0IJSAsyvINs-DJs6Ybdvcqxx-5X1ahvU";
+    public static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiVGVhbTkiLCJpYXQiOjE1NzAxOTg5OTAsImV4cCI6MTU3MDIwNjE5MH0.W7qOzTjWSdmEzOv-_hdW35sQ9qhOmWAuFO8PwPtTUiE";
 
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
@@ -59,7 +59,7 @@ public class ServerConnection {
         }
     }
 
-    public static void postJSON(String matchID) throws IOException {
+    public static void postJSON(String matchID, String jsonInputStr) throws IOException {
         URL url = new URL(host + "/matches/" + matchID + "/action");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -71,8 +71,8 @@ public class ServerConnection {
 
         con.setDoOutput(true);
 
-        String jsonInputString = "{\"actions\":[{\"agentID\":2,\"dx\":0,\"dy\":0,\"type\":\"stay\"},{\"agentID\":3,\"dx\":0,\"dy\":0,\"type\":\"stay\"}]}";
-
+//        String jsonInputString = "{\"actions\":[{\"agentID\":2,\"dx\":0,\"dy\":0,\"type\":\"stay\"},{\"agentID\":3,\"dx\":0,\"dy\":0,\"type\":\"stay\"}]}";
+        String jsonInputString = jsonInputStr;
         try (OutputStream os = con.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);

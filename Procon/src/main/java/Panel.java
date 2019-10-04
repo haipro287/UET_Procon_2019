@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Panel extends JPanel {
-    public static final int TURN_PERIOD = 10000;
+    public static final int TURN_PERIOD = 30000;
     Map gameMap;
 //    Tile[][] tiles;
     private static Tile selectingTile = null;
@@ -28,17 +28,7 @@ public class Panel extends JPanel {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
-    
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 900, 600);
-        /*
-        DRAW MAP: Each tile is a button.
-         */
-        // FIXME: gameMap height and width is 0 for sometime, then become 10.
+        // TODO: Clean the code, put setBackground in Tile class
         for (int i = 0; i < gameMap.getHeight(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
                 Tile tile = gameMap.getTiles().get(i).get(j);
@@ -88,6 +78,17 @@ public class Panel extends JPanel {
         }
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 900, 600);
+        /*
+        DRAW MAP: Each tile is a button.
+         */
+        // FIXME: gameMap height and width is 0 for sometime, then become 10.
+
+    }
+
     /**
      * Check if an agent is on tile[i][j]
      * @param i y-coordinate of tile
@@ -106,9 +107,9 @@ public class Panel extends JPanel {
         return 0;
     }
 
-    private void takeAction(String host, String token, String matchID) throws IOException {
-        String jsonInputString = "";
-        ServerConnection.postJSON(matchID);
+    private void takeAction(String matchID) throws IOException {
+        String jsonInputStr = gameMap.getTeams().get(MY_TEAM).getInputActionString();
+        ServerConnection.postJSON(matchID, jsonInputStr);
     }
     /**
      * Each turn period (5 - 10 - 15 seconds), do as follow: connect to server and get json -> remove all component on screen
@@ -119,24 +120,24 @@ public class Panel extends JPanel {
         /*
         SET GAME MAP: Fetch API from the URL and set the value collected to gameMap.
          */
-        try {
-            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        repaint();
-//        while(true) {
-//            long currentTime = System.currentTimeMillis();
-//            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
-//                //FETCH JSON -> READ JSON -> SET GAME MAP
-//                this.removeAll();
-//                //revalidate();
-//                repaint();
+
+        while(true) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
+                //FETCH JSON -> READ JSON -> SET GAME MAP
+                this.removeAll();
+                revalidate();
+                try {
+                    this.setGameMap("127.0.0.1:8080", "procon30_example_token", "207");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                repaint();
 //                calculateNextStep();
-//                //takeAction()
-//                //writeJSON();
-//                lastTime = currentTime;
-//            }
-//        }
+//                takeAction("207");
+//                writeJSON();
+                lastTime = currentTime;
+            }
+        }
     }
 }
