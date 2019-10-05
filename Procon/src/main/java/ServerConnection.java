@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
     private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiVGVhbTkiLCJpYXQiOjE1NzAyNzgzMzUsImV4cCI6MTU3MDI4NTUzNX0.eLXt1ATt_Auk5wCa8JFPjujRoilVACDy4jSodrVUCHo";
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiVGVhbTkiLCJpYXQiOjE1NzAyODU2NzIsImV4cCI6MTU3MDI5Mjg3Mn0.RhN8CMkTlC3HXOnluE2tYr8fnqsinrSw69u7eE1OOSc";
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
 
@@ -59,7 +59,7 @@ public class ServerConnection {
     }
 
     public static void postJSON(String actionString, String matchID) throws IOException {
-        URL url = new URL(host + "/matches/" + "207" + "/action");
+        URL url = new URL(host + "/matches/" + "206" + "/action");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
