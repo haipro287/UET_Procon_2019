@@ -18,7 +18,7 @@ public class Panel extends JPanel {
         gameMap = new Map();
     }
 
-    /**
+    /**18
      * Get Json from Procon server and set up game map.
      * @param host server host
      * @param token server token
@@ -39,6 +39,8 @@ public class Panel extends JPanel {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
+        OPPONENT_TEAMID = gameMap.getTeams().get(OPPONENT_TEAM).getTeamID();
+
         // TODO: Add scoreboard for 2 team
         gameMap.setTilesColor();
         // Add action to all tiles
@@ -68,13 +70,20 @@ public class Panel extends JPanel {
                         } else if (selectingTile != null) {
                             if (tile.checkIfClose(selectingTile)) {
                                 selectingTile.getOccupyingAgent().setAction(selectingTile, tile);
-                                System.out.println(selectingTile.getOccupyingAgent().getActionString());
+//                                System.out.println(selectingTile.getOccupyingAgent().getActionString());
+//                                System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
                             }
                         }
                     }
                 });
                 this.add(tile);            }
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 900, 600);
     }
 
     /**
@@ -84,7 +93,7 @@ public class Panel extends JPanel {
      */
     private void takeAction(String matchID) throws IOException {
         String jsonInputString = gameMap.getTeams().get(MY_TEAM).getInputActionString();
-            ServerConnection.postJSON(jsonInputString, "206");
+        ServerConnection.postJSON(jsonInputString, "206");
 //        ServerConnection.postJSON(matchID);
     }
     /**
@@ -93,10 +102,16 @@ public class Panel extends JPanel {
      */
     public void execLoop() throws IOException {
         long lastTime = 0;
+        try {
+            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "206");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while(true) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
                 //CLEAR MAP -> SET GAME MAP -> REDRAW
+                takeAction("206");
                 this.removeAll();
                 revalidate();
                 try {
@@ -106,8 +121,6 @@ public class Panel extends JPanel {
                 }
                 repaint();
 //                calculateNextStep();
-                takeAction("206");
-//                writeJSON();
                 lastTime = currentTime;
             }
         }
