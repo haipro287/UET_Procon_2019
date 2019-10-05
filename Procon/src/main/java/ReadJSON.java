@@ -72,7 +72,8 @@ public class ReadJSON {
             map.getTeams().get(i).setAgents(new ArrayList<Agent>());
             for (JSONObject jsonObject : (Iterable<JSONObject>) array) {
                 JSONObject agent = (JSONObject) jsonObject;
-                Agent newAgent = new Agent(Integer.parseInt(agent.get("agentID").toString()),
+                Agent newAgent = new Agent(map.getTeams().get(i).getTeamID(),
+                        Integer.parseInt(agent.get("agentID").toString()),
                         Integer.parseInt(agent.get("x").toString()),
                         Integer.parseInt(agent.get("y").toString()));
                 map.getTeams().get(i).getAgents().add(newAgent);
