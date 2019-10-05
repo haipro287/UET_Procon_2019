@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Panel extends JPanel {
     public static final int TURN_PERIOD = 30000;
     Map gameMap;
-//    Tile[][] tiles;
     private static Tile selectingTile = null;
     static int MY_TEAM, MY_TEAMID = 244;
     static int OPPONENT_TEAM;
@@ -18,8 +17,20 @@ public class Panel extends JPanel {
     public Panel() {
         gameMap = new Map();
     }
+
+    /**
+     * Get Json from Procon server and set up game map.
+     * @param host server host
+     * @param token server token
+     * @param matchID server matchID
+     * @throws IOException
+     */
     private void setGameMap(String host, String token, String matchID) throws IOException {
+        // Reset all element
         gameMap = ServerConnection.getJSON(matchID);
+        selectingTile = null;
+
+        //Set myTeamIndex and myTeamID
         if (gameMap.getTeams().get(0).getTeamID() == MY_TEAMID) {
             MY_TEAM = 0;
             OPPONENT_TEAM  = 1;
@@ -28,7 +39,9 @@ public class Panel extends JPanel {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
+        // TODO: Add scoreboard for 2 team
         gameMap.setTilesColor();
+        // Add action to all tiles
         for (int i = 0; i < gameMap.getHeight(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
                 Tile tile = gameMap.getTiles().get(i).get(j);
@@ -65,23 +78,10 @@ public class Panel extends JPanel {
     }
 
     /**
-     * Check if an agent is on tile[i][j]
-     * @param i y-coordinate of tile
-     * @param j x-coordinate of tile
-     * @param teamIndex 0 for the first team, 1 for the second
-     * @return true if an agent is on tile[i][j], else return false
+     * Generate json action string and post it to the server.
+     * @param matchID
+     * @throws IOException
      */
-    private int checkAgentPosColor(int i, int j, int teamIndex) {
-        ArrayList<Agent> teamAgents = gameMap.getTeams().get(teamIndex).getAgents();
-        for (int k = 0; k < teamAgents.size(); k++) {
-            Agent currentAgent = teamAgents.get(k);
-            if (currentAgent.getY() == i + 1 && currentAgent.getX() == j + 1) {
-                return currentAgent.getAgentID();
-            }
-        }
-        return 0;
-    }
-
     private void takeAction(String matchID) throws IOException {
         String jsonInputString = gameMap.getTeams().get(MY_TEAM).getInputActionString();
             ServerConnection.postJSON(jsonInputString, "206");
@@ -93,14 +93,10 @@ public class Panel extends JPanel {
      */
     public void execLoop() throws IOException {
         long lastTime = 0;
-        /*
-        SET GAME MAP: Fetch API from the URL and set the value collected to gameMap.
-         */
-
         while(true) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
-                //FETCH JSON -> READ JSON -> SET GAME MAP
+                //CLEAR MAP -> SET GAME MAP -> REDRAW
                 this.removeAll();
                 revalidate();
                 try {

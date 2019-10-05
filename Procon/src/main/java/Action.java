@@ -71,14 +71,6 @@ public class Action {
 
     @Override
     public String toString() {
-//        return "Action{" +
-//                "agentID=" + agentID +
-//                ", type='" + type + '\'' +
-//                ", dx=" + dx +
-//                ", dy=" + dy +
-//                ", turn=" + turn +
-//                ", apply=" + apply +
-//                '}';
         return "{\"agentID\":" + agentID + ",\"dx\":" + dx + ",\"dy\":" + dy + ",\"type\":\"" + type + "\"}";
     }
 }
