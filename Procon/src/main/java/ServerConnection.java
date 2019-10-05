@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
     private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MDIwMzU3MSwiZXhwIjoxNTcwMjEwNzcxfQ.THbqnl_APtimCwhrQoxrHRV_bi0fp9b1qf4EhnVnRHI";
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MDI1MTAwNywiZXhwIjoxNTcwMjU4MjA3fQ.Jif27Ka-CYVG-MXIcl6aF8QAtKYZ0PopFj2JolO4emg";
 
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
@@ -60,7 +60,7 @@ public class ServerConnection {
     }
 
     public static void postJSON(String actionString, String matchID) throws IOException {
-        URL url = new URL(host + "/matches/" + "207" + "/action");
+        URL url = new URL(host + "/matches/" + matchID + "/action");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
@@ -89,6 +89,7 @@ public class ServerConnection {
             }
 //            System.out.println(response.toString());
         }
+        System.out.println("POST success");
     }
 
     public static void getPing() throws IOException {
@@ -123,8 +124,9 @@ public class ServerConnection {
 //        System.out.println("Enter matchID:");
 //        String matchID = sc.nextLine();
 //        ServerConnection.getJSON("206");
-            postJSON("", "1");
+//            postJSON("", "1");
 //            getJSON("1");
+            getMatch();
         }
 
     }
