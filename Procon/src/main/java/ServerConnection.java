@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
     private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiVGVhbTkiLCJpYXQiOjE1NzAyNTYzMDEsImV4cCI6MTU3MDI2MzUwMX0.PaM7dw7dJ_eMY9qyDe2bjZjGOiMVMk4YbtbTwOys6_U";
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiVGVhbTkiLCJpYXQiOjE1NzAyNzgzMzUsImV4cCI6MTU3MDI4NTUzNX0.eLXt1ATt_Auk5wCa8JFPjujRoilVACDy4jSodrVUCHo";
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
 
