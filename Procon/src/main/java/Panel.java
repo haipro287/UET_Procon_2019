@@ -65,17 +65,6 @@ public class Panel extends JPanel {
         }
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 900, 600);
-        /*
-        DRAW MAP: Each tile is a button.
-         */
-        // FIXME: gameMap height and width is 0 for sometime, then become 10.
-
-    }
-
     /**
      * Check if an agent is on tile[i][j]
      * @param i y-coordinate of tile
@@ -132,5 +121,18 @@ public class Panel extends JPanel {
                 lastTime = currentTime;
             }
         }
+//        while(true) {
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
+//                //FETCH JSON -> READ JSON -> SET GAME MAP
+//                this.removeAll();
+//                //revalidate();
+//                repaint();
+////                calculateNextStep();
+//                //takeAction()
+//                //writeJSON();
+//                lastTime = currentTime;
+//            }
+//        }
     }
 }
