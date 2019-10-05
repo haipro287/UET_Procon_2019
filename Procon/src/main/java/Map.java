@@ -5,7 +5,7 @@ public class Map {
     private int width;
     private int height;
 
-    private int startedAtUnixTime;
+    private String startedAtUnixTime;
     private int turn;
     private ArrayList<Team> teams;
     private ArrayList<Action> actions;
@@ -35,11 +35,11 @@ public class Map {
         return tiles;
     }
 
-    public int getStartedAtUnixTime() {
+    public String getStartedAtUnixTime() {
         return startedAtUnixTime;
     }
 
-    public void setStartedAtUnixTime(int startedAtUnixTime) {
+    public void setStartedAtUnixTime(String startedAtUnixTime) {
         this.startedAtUnixTime = startedAtUnixTime;
     }
 

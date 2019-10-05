@@ -43,7 +43,7 @@ public class ReadJSON {
         }
 
         //get startedAtUnixTime
-//        map.setStartedAtUnixTime(Integer.parseInt(result.get("startedAtUnixTime").toString()));
+        map.setStartedAtUnixTime((result.get("startedAtUnixTime").toString()));
 
         // get turn
         map.setTurn(Integer.parseInt(result.get("turn").toString()));
