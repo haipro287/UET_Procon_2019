@@ -8,8 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
     private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MDIwMzU3MSwiZXhwIjoxNTcwMjEwNzcxfQ.THbqnl_APtimCwhrQoxrHRV_bi0fp9b1qf4EhnVnRHI";
-
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiVGVhbTkiLCJpYXQiOjE1NzAyNTYzMDEsImV4cCI6MTU3MDI2MzUwMX0.PaM7dw7dJ_eMY9qyDe2bjZjGOiMVMk4YbtbTwOys6_U";
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
 
@@ -123,8 +122,9 @@ public class ServerConnection {
 //        System.out.println("Enter matchID:");
 //        String matchID = sc.nextLine();
 //        ServerConnection.getJSON("206");
-            postJSON("", "1");
+//            postJSON("", "1");
 //            getJSON("1");
+            getMatch();
         }
 
     }

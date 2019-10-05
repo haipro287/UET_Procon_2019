@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Panel extends JPanel {
-    public static final int TURN_PERIOD = 30;
+    public static final int TURN_PERIOD = 30000;
     Map gameMap;
 //    Tile[][] tiles;
     private static Tile selectingTile = null;
-    static int MY_TEAM;
+    static int MY_TEAM, MY_TEAMID = 2;
     static int OPPONENT_TEAM;
 
     public Panel() {
@@ -20,7 +20,7 @@ public class Panel extends JPanel {
     }
     private void setGameMap(String host, String token, String matchID) throws IOException {
         gameMap = ServerConnection.getJSON(matchID);
-        if (gameMap.getTeams().get(0).getTeamID() == 9) {
+        if (gameMap.getTeams().get(0).getTeamID() == MY_TEAMID) {
             MY_TEAM = 0;
             OPPONENT_TEAM  = 1;
         }
@@ -28,24 +28,10 @@ public class Panel extends JPanel {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
-        // TODO: Clean the code, put setBackground in Tile class
+        gameMap.setTilesColor();
         for (int i = 0; i < gameMap.getHeight(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
                 Tile tile = gameMap.getTiles().get(i).get(j);
-                if (tile.getOccupyingTeam() == 0) {
-                    tile.setBackground(Color.LIGHT_GRAY);
-                }
-                else if (tile.getOccupyingTeam() == gameMap.getTeams().get(MY_TEAM).getTeamID()) {
-                    tile.setBackground(Color.ORANGE);
-                    if (checkAgentPosColor(i, j, MY_TEAM) != 0) tile.setBackground(Color.RED); // TODO: change teamIndex to MY_TEAM
-                }
-                else if (tile.getOccupyingTeam() == gameMap.getTeams().get(OPPONENT_TEAM).getTeamID()) {
-                    tile.setBackground(Color.CYAN);
-                    if (checkAgentPosColor(i, j, OPPONENT_TEAM) != 0) tile.setBackground(Color.BLUE);
-                }
-                tile.setFont(new Font("Arial", Font.BOLD, 15));
-                tile.setBounds(60 * j, 60 * i, 50, 50);
-
                 int finalI = i, finalJ = j;
                 tile.addActionListener(new ActionListener() {
                     /*
@@ -56,28 +42,23 @@ public class Panel extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 //                        System.out.println("You clicked tile (" + finalI + ", " + finalJ + ")");
-                        if (selectingTile == null && checkAgentPosColor(finalI, finalJ, MY_TEAM) != 0) {
-                            selectingTile = tile;
-                            selectingTile.setForeground(selectingTile.getBackground());
-                            selectingTile.setBackground(Color.YELLOW);
+                        if (selectingTile == null && tile.getOccupyingAgent() != null) {
+                            if (tile.getOccupyingAgent().getTeamID() == MY_TEAMID) {
+                                selectingTile = tile;
+                                selectingTile.setForeground(selectingTile.getBackground());
+                                selectingTile.setBackground(Color.YELLOW);
+                            }
                         } else if (selectingTile == tile) {
                             selectingTile.setBackground(selectingTile.getForeground());
                             selectingTile.setForeground(Color.BLACK);
                             selectingTile = null;
                         } else if (selectingTile != null) {
                             if (tile.checkIfClose(selectingTile)) {
-                                System.out.println("It is close");
                                 selectingTile.getOccupyingAgent().setAction(selectingTile, tile);
                                 System.out.println(selectingTile.getOccupyingAgent().getActionString());
                             }
                         }
-                        System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
-                        try {
-                            ServerConnection.postJSON(gameMap.getTeams().get(MY_TEAM).getInputActionString(), "1");
-                        }
-                        catch (IOException i) {
-                            i.printStackTrace();
-                        }
+//                        System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
                     }
                 });
                 this.add(tile);            }
@@ -113,8 +94,14 @@ public class Panel extends JPanel {
         return 0;
     }
 
-    private void takeAction(String host, String token, String matchID) throws IOException {
-        String jsonInputString = "";
+    private void takeAction(String matchID) throws IOException {
+        String jsonInputString = gameMap.getTeams().get(MY_TEAM).getInputActionString();
+        try {
+            ServerConnection.postJSON(jsonInputString, "1");
+        }
+        catch (IOException i) {
+            i.printStackTrace();
+        }
 //        ServerConnection.postJSON(matchID);
     }
     /**
@@ -140,7 +127,7 @@ public class Panel extends JPanel {
                 }
                 repaint();
 //                calculateNextStep();
-//                takeAction("207");
+                takeAction("207");
 //                writeJSON();
                 lastTime = currentTime;
             }

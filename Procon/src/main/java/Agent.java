@@ -29,18 +29,27 @@ public class Agent {
         this.y = y;
     }
 
+    public void setTeamID(int teamID) {
+        this.teamID = teamID;
+    }
+
+    public int getTeamID() {
+        return teamID;
+    }
+
     public Agent() {
-        this(0, 0, 0);
+        this(0, 0, 0, 0);
     }
 
-    public Agent(int agentID) {
-        this(agentID, 0, 0);
+    public Agent(int teamID, int agentID) {
+        this(teamID, agentID, 0, 0);
     }
 
-    public Agent(int agentID, int x, int y) {
+    public Agent(int teamID, int agentID, int x, int y) {
         this.agentID = agentID;
         this.x = x;
         this.y = y;
+        this.teamID = teamID;
         action = new Action(agentID);
     }
 
@@ -49,7 +58,13 @@ public class Agent {
         // TODO: if other team's agent is on destination tile, notify me.
         action.setDx(destination.getColIndex() - start.getColIndex());
         action.setDy(destination.getRowIndex() - start.getRowIndex());
-        action.setType("move");
+        if (destination.getOccupyingTeam() == 0) {
+            action.setType("move");
+        }
+        else if (destination.getOccupyingTeam() != Panel.MY_TEAMID) {
+//            System.out.println("[generate delete tile action]");
+            action.setType("remove");
+        }
     }
 
     public String getActionString() {
@@ -59,7 +74,8 @@ public class Agent {
     @Override
     public String toString() {
         return "Agent{" +
-                "agentID=" + agentID +
+                "teamID=" + teamID +
+                ", agentID=" + agentID +
                 ", x=" + x +
                 ", y=" + y +
                 '}';

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Map {
@@ -64,6 +65,27 @@ public class Map {
 
     public void setActions(ArrayList<Action> actions) {
         this.actions = actions;
+    }
+
+    public void setTilesColor() {
+        for (int i = 0; i < this.getHeight(); i++) {
+            for (int j = 0; j < this.getWidth(); j++) {
+                Tile tile = this.getTiles().get(i).get(j);
+                if (tile.getOccupyingTeam() == 0) {
+                    tile.setBackground(Color.LIGHT_GRAY);
+                }
+                else if (tile.getOccupyingTeam() == this.getTeams().get(Panel.MY_TEAM).getTeamID()) {
+                    tile.setBackground(Color.ORANGE);
+                    if (tile.getOccupyingAgent() != null) tile.setBackground(Color.RED); // TODO: change teamIndex to MY_TEAM
+                }
+                else if (tile.getOccupyingTeam() == this.getTeams().get(Panel.OPPONENT_TEAM).getTeamID()) {
+                    tile.setBackground(Color.CYAN);
+                    Color blueColor = new Color(31, 168, 198);
+                    if (tile.getOccupyingAgent() != null) tile.setBackground(blueColor);
+                }
+                tile.setBounds(60 * j, 60 * i, 50, 50);
+            }
+        }
     }
 
     @Override
