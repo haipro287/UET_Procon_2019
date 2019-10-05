@@ -26,7 +26,11 @@ public class Panel extends JPanel {
      * @throws IOException
      */
     private void setGameMap(String host, String token, String matchID) throws IOException {
+        // Reset all element
         gameMap = ServerConnection.getJSON(matchID);
+        selectingTile = null;
+
+        //Set myTeamIndex and myTeamID
         if (gameMap.getTeams().get(0).getTeamID() == MY_TEAMID) {
             MY_TEAM = 0;
             OPPONENT_TEAM  = 1;
@@ -37,6 +41,7 @@ public class Panel extends JPanel {
         }
         // TODO: Add scoreboard for 2 team
         gameMap.setTilesColor();
+        // Add action to all tiles
         for (int i = 0; i < gameMap.getHeight(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
                 Tile tile = gameMap.getTiles().get(i).get(j);
