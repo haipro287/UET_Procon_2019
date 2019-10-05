@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3929b43a-2b2e-426b-a5b1-4105f18a9e05" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ScoreTile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Agent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Action.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Panel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ReadJSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ReadJSON.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Tile.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +41,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

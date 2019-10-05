@@ -83,6 +83,7 @@ public class Map {
                     Color blueColor = new Color(31, 168, 198);
                     if (tile.getOccupyingAgent() != null) tile.setBackground(blueColor);
                 }
+                //TODO: Dynamically resize tiles base on map width/height, use rectangular tile if necessary
                 tile.setBounds(60 * j, 60 * i, 50, 50);
             }
         }
