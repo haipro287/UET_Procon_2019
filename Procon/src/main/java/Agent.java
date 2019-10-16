@@ -58,7 +58,7 @@ public class Agent {
         // TODO: if other team's agent is on destination tile, notify me.
         action.setDx(destination.getColIndex() - start.getColIndex());
         action.setDy(destination.getRowIndex() - start.getRowIndex());
-        if (destination.getOccupyingTeam() == 0) {
+        if (destination.getOccupyingTeam() == 0 || destination.getOccupyingTeam() == Panel.MY_TEAMID) {
             action.setType("move");
         }
         else if (destination.getOccupyingTeam() != Panel.MY_TEAMID) {
