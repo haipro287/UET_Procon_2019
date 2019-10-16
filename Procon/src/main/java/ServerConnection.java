@@ -8,8 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnection {
     private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MDI4Nzg3NiwiZXhwIjoxNTcwMjk1MDc2fQ.BsW8pTjnXqOqHSVQJl1OWtywDL9sMhZzwLF95sIW5UE";
-
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MTE1NzE2NCwiZXhwIjoxNTcxMTY0MzY0fQ.2RahXIhyKutzKbcqpF3gFY9czrdP1DEXJ42yNhhX0bw";
     public static void getMatch() throws IOException {
         URL url = new URL(host + "/matches");
 
@@ -34,7 +33,7 @@ public class ServerConnection {
         }
     }
 
-    public static Map getJSON(String matchID) throws IOException {
+    public static Map getJSON(String token, String matchID) throws IOException {
         URL url = new URL(host + "/matches/" + matchID);
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -59,7 +58,7 @@ public class ServerConnection {
         }
     }
 
-    public static void postJSON(String actionString, String matchID) throws IOException {
+    public static void postJSON(String actionString, String token, String matchID) throws IOException {
         URL url = new URL(host + "/matches/" + matchID + "/action");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -87,9 +86,8 @@ public class ServerConnection {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-//            System.out.println(response.toString());
+            System.out.println("POST success " + response.toString());
         }
-        System.out.println("POST success " + actionString);
     }
 
     public static void getPing() throws IOException {
@@ -124,7 +122,9 @@ public class ServerConnection {
 //        System.out.println("Enter matchID:");
 //        String matchID = sc.nextLine();
 //        ServerConnection.getJSON("206");
-            postJSON("", "1");
+//            getJSON("206");
+//            System.out.println(System.currentTimeMillis());
+            getMatch();
         }
 
     }
