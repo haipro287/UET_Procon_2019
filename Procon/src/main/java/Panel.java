@@ -6,17 +6,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Panel extends JPanel {
-    public static final int TURN_PERIOD = 30000;
+    public static final int TURN_PERIOD = 36030;
     Map gameMap;
     private static Tile selectingTile = null;
-    static int MY_TEAM, MY_TEAMID = 218;
+    static int MY_TEAM, MY_TEAMID = 244;
     static int OPPONENT_TEAM, OPPONENT_TEAMID;
 
     public Panel() {
         gameMap = new Map();
     }
+
+
+    Scanner sc = new Scanner(System.in);
+    String token = sc.nextLine();
+    String matchID = sc.nextLine();
 
     /**18
      * Get Json from Procon server and set up game map.
@@ -27,7 +33,7 @@ public class Panel extends JPanel {
      */
     private void setGameMap(String host, String token, String matchID) throws IOException {
         // Reset all element
-        gameMap = ServerConnection.getJSON(matchID);
+        gameMap = ServerConnection.getJSON(token, matchID);
         selectingTile = null;
 
         //Set myTeamIndex and myTeamID
@@ -74,7 +80,6 @@ public class Panel extends JPanel {
 //                                System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
                             }
                         }
-//                        System.out.println(gameMap.getTeams().get(MY_TEAM).getInputActionString());
                     }
                 });
                 this.add(tile);            }
@@ -94,13 +99,8 @@ public class Panel extends JPanel {
      */
     private void takeAction(String matchID) throws IOException {
         String jsonInputString = gameMap.getTeams().get(MY_TEAM).getInputActionString();
-        System.out.println(jsonInputString);
-        try {
-            ServerConnection.postJSON(jsonInputString, "1");
-        }
-        catch (IOException i) {
-            i.printStackTrace();
-        }
+        ServerConnection.postJSON(jsonInputString, token, matchID);
+//        ServerConnection.postJSON(matchID);
     }
     /**
      * Each turn period (5 - 10 - 15 seconds), do as follow: connect to server and get json -> remove all component on screen
@@ -109,26 +109,45 @@ public class Panel extends JPanel {
     public void execLoop() throws IOException {
         long lastTime = 0;
         try {
-            this.setGameMap("127.0.0.1:8080", "procon30_example_token", "206");
+            this.setGameMap("127.0.0.1:8080", token, matchID);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        repaint();
+
         while(true) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
+//            System.out.println(System.currentTimeMillis());
+//            System.out.println(gameMap.getStartedAtUnixTime());
+
+            long currentTurnRemain = (System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))%TURN_PERIOD;
+
+//            long currentTime = System.currentTimeMillis();
+//            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
+
+            if (currentTurnRemain == 29500) {
+                takeAction(matchID);
+            }
+            if (currentTurnRemain % 5000 == 0) {
+                System.out.println(currentTurnRemain);
+//                System.out.println((System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))/TURN_PERIOD);
+            }
+//
+            if (currentTurnRemain == 1000) { //After the turn period, automatically fetch new API.
+
                 //CLEAR MAP -> SET GAME MAP -> REDRAW
-                takeAction("206");
+//                takeAction(matchID);
                 this.removeAll();
                 revalidate();
                 try {
-                    this.setGameMap("127.0.0.1:8080", "procon30_example_token", "206");
+                    this.setGameMap("127.0.0.1:8080", token, matchID);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 repaint();
 //                calculateNextStep();
-                lastTime = currentTime;
+//                lastTime = currentTime;
             }
         }
+
     }
 }
