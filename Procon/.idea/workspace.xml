@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3929b43a-2b2e-426b-a5b1-4105f18a9e05" name="Default Changelist" comment="big update&#10;now client time can sync with server time&#10;token and matchID need to enter before fetcching">
+    <list default="true" id="3929b43a-2b2e-426b-a5b1-4105f18a9e05" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Agent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerConnection.java" afterDir="false" />
     </list>
@@ -109,6 +110,14 @@
       <option name="presentableId" value="Default" />
       <updated>1569137840011</updated>
     </task>
+    <task id="LOCAL-00001" summary="big update&#10;now client time can sync with server time&#10;token and matchID need to enter before fetcching">
+      <created>1571195490086</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571195490086</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

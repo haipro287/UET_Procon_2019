@@ -9,29 +9,37 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Panel extends JPanel {
-    public static final int TURN_PERIOD = 36030;
-    Map gameMap;
-    private static Tile selectingTile = null;
-    static int MY_TEAM, MY_TEAMID = 244;
-    static int OPPONENT_TEAM, OPPONENT_TEAMID;
-
-    public Panel() {
-        gameMap = new Map();
-    }
-
 
     Scanner sc = new Scanner(System.in);
     String token = sc.nextLine();
-    String matchID = sc.nextLine();
+    ArrayList<Match> matches;
+    Map gameMap;
 
-    /**18
+    public static int TURN_PERIOD;
+    static int matchID;
+    static int MY_TEAM, MY_TEAMID;
+    static int OPPONENT_TEAM, OPPONENT_TEAMID;
+    private static Tile selectingTile = null;
+
+    public Panel() throws IOException {
+        gameMap = new Map();
+        matches = ServerConnection.getMatch(token);
+        TURN_PERIOD = matches.get(0).getTurnMillis()*1000 + matches.get(0).getIntervalMillis() + 1030;
+        System.out.println(TURN_PERIOD);
+        matchID = matches.get(0).getId();
+        MY_TEAMID = matches.get(0).getTeamID();
+    }
+
+    /**
+     * 18
      * Get Json from Procon server and set up game map.
-     * @param host server host
-     * @param token server token
+     *
+     * @param host    server host
+     * @param token   server token
      * @param matchID server matchID
      * @throws IOException
      */
-    private void setGameMap(String host, String token, String matchID) throws IOException {
+    private void setGameMap(String host, String token, int matchID) throws IOException {
         // Reset all element
         gameMap = ServerConnection.getJSON(token, matchID);
         selectingTile = null;
@@ -39,9 +47,8 @@ public class Panel extends JPanel {
         //Set myTeamIndex and myTeamID
         if (gameMap.getTeams().get(0).getTeamID() == MY_TEAMID) {
             MY_TEAM = 0;
-            OPPONENT_TEAM  = 1;
-        }
-        else {
+            OPPONENT_TEAM = 1;
+        } else {
             MY_TEAM = 1;
             OPPONENT_TEAM = 0;
         }
@@ -82,7 +89,8 @@ public class Panel extends JPanel {
                         }
                     }
                 });
-                this.add(tile);            }
+                this.add(tile);
+            }
         }
     }
 
@@ -94,20 +102,21 @@ public class Panel extends JPanel {
 
     /**
      * Generate json action string and post it to the server.
+     *
      * @param matchID
      * @throws IOException
      */
-    private void takeAction(String matchID) throws IOException {
+    private void takeAction(int matchID) throws IOException {
         String jsonInputString = gameMap.getTeams().get(MY_TEAM).getInputActionString();
         ServerConnection.postJSON(jsonInputString, token, matchID);
-//        ServerConnection.postJSON(matchID);
     }
+
     /**
      * Each turn period (5 - 10 - 15 seconds), do as follow: connect to server and get json -> remove all component on screen
      * -> redraw -> calculate next step -> human takes action -> post action to server.
      */
     public void execLoop() throws IOException {
-        long lastTime = 0;
+//        long lastTime = 0;
         try {
             this.setGameMap("127.0.0.1:8080", token, matchID);
         } catch (IOException e) {
@@ -115,11 +124,11 @@ public class Panel extends JPanel {
         }
         repaint();
 
-        while(true) {
+        while (true) {
 //            System.out.println(System.currentTimeMillis());
 //            System.out.println(gameMap.getStartedAtUnixTime());
 
-            long currentTurnRemain = (System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))%TURN_PERIOD;
+            long currentTurnRemain = (System.currentTimeMillis() - Long.parseLong(gameMap.getStartedAtUnixTime())) % TURN_PERIOD;
 
 //            long currentTime = System.currentTimeMillis();
 //            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
