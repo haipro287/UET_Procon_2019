@@ -107,7 +107,6 @@ public class Panel extends JPanel {
      * -> redraw -> calculate next step -> human takes action -> post action to server.
      */
     public void execLoop() throws IOException {
-        long lastTime = 0;
         try {
             this.setGameMap("127.0.0.1:8080", token, matchID);
         } catch (IOException e) {
@@ -116,26 +115,18 @@ public class Panel extends JPanel {
         repaint();
 
         while(true) {
-//            System.out.println(System.currentTimeMillis());
-//            System.out.println(gameMap.getStartedAtUnixTime());
-
             long currentTurnRemain = (System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))%TURN_PERIOD;
 
-//            long currentTime = System.currentTimeMillis();
-//            if (currentTime - lastTime >= TURN_PERIOD) { //After the turn period, automatically fetch new API.
 
             if (currentTurnRemain == 29500) {
                 takeAction(matchID);
             }
             if (currentTurnRemain % 5000 == 0) {
                 System.out.println(currentTurnRemain);
-//                System.out.println((System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))/TURN_PERIOD);
             }
-//
             if (currentTurnRemain == 1000) { //After the turn period, automatically fetch new API.
 
                 //CLEAR MAP -> SET GAME MAP -> REDRAW
-//                takeAction(matchID);
                 this.removeAll();
                 revalidate();
                 try {
@@ -144,8 +135,6 @@ public class Panel extends JPanel {
                     e.printStackTrace();
                 }
                 repaint();
-//                calculateNextStep();
-//                lastTime = currentTime;
             }
         }
 
