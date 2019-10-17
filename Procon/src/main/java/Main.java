@@ -10,7 +10,7 @@ public class Main {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Panel panel = new Panel();
         window.add(panel);
-        panel.setPreferredSize(new Dimension(900, 600));
+        panel.setPreferredSize(new Dimension(1100, 700));
         window.pack();
         window.setVisible(true);
         panel.execLoop();

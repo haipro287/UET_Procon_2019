@@ -21,7 +21,9 @@ public class Tile extends JButton {
         this.colIndex = colIndex;
         this.score = score;
         this.setText(Integer.toString(score));
-        this.setFont(new Font("Arial", Font.BOLD, 12));
+        this.setFont(new Font("Arial", Font.BOLD, 10));
+        this.setMargin(new Insets(0, 0, 0, 0));
+
     }
     public void setScore(int score) {
         this.score = score;

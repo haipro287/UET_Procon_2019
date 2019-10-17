@@ -14,6 +14,7 @@ public class Panel extends JPanel {
     String token = sc.nextLine();
     ArrayList<Match> matches;
     Map gameMap;
+    JLabel scoreBoard, postNotification, timer;
 
     public static int TURN_PERIOD;
     static int matchID;
@@ -24,7 +25,7 @@ public class Panel extends JPanel {
     public Panel() throws IOException {
         gameMap = new Map();
         matches = ServerConnection.getMatch(token);
-        TURN_PERIOD = matches.get(0).getTurnMillis()*1000 + matches.get(0).getIntervalMillis() + 1030;
+        TURN_PERIOD = matches.get(0).getTurnMillis() + matches.get(0).getIntervalMillis() + 1030;
         System.out.println(TURN_PERIOD);
         matchID = matches.get(0).getId();
         MY_TEAMID = matches.get(0).getTeamID();
@@ -92,6 +93,25 @@ public class Panel extends JPanel {
                 this.add(tile);
             }
         }
+        // SCORE LABEL:
+        scoreBoard = new JLabel("My Score: " + Integer.toString(gameMap.getTeams().get(MY_TEAM).getTilePoint())
+                + " " + Integer.toString(gameMap.getTeams().get(MY_TEAM).getAreaPoint()));
+        scoreBoard.setBounds(400, 10, 200, 60);
+        scoreBoard.setForeground(Color.RED);
+        scoreBoard.setFont(new Font("Helvetica", Font.PLAIN, 18));
+        this.add(scoreBoard);
+//
+//        // POST NOTIFICATION
+//        postNotification = new JLabel("Waiting for post...");
+//        postNotification.setBounds(600, 70, 200, 30);
+//        postNotification.setFont(new Font("Helvetica", Font.PLAIN, 15));
+//        this.add(postNotification);
+
+        // TIMER
+//        timer = new JLabel();
+//        timer.setBounds(600, 100, 200, 30);
+//        timer.setFont(new Font("Helvetica", Font.PLAIN, 15));
+//        this.add(timer);
     }
 
     @Override
@@ -125,13 +145,13 @@ public class Panel extends JPanel {
 
         while(true) {
             long currentTurnRemain = (System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))%TURN_PERIOD;
-
-
             if (currentTurnRemain == 29500) {
                 takeAction(matchID);
             }
             if (currentTurnRemain % 5000 == 0) {
                 System.out.println(currentTurnRemain);
+//                timer.setText(Long.toString(currentTurnRemain));
+//                System.out.println((System.currentTimeMillis()-Long.parseLong(gameMap.getStartedAtUnixTime()))/TURN_PERIOD);
             }
             if (currentTurnRemain == 1000) { //After the turn period, automatically fetch new API.
 

@@ -84,7 +84,7 @@ public class Map {
                     if (tile.getOccupyingAgent() != null) tile.setBackground(blueColor);
                 }
                 //TODO: Dynamically resize tiles base on map width/height, use rectangular tile if necessary
-                tile.setBounds(60 * j, 60 * i, 50, 50);
+                tile.setBounds(37 * j, 37 * i, 35, 35);
             }
         }
     }
