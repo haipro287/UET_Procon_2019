@@ -5,11 +5,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class ServerConnection {
     private static final String host = "http://sv-procon.uet.vnu.edu.vn:3000";
-    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MTE1NzE2NCwiZXhwIjoxNTcxMTY0MzY0fQ.2RahXIhyKutzKbcqpF3gFY9czrdP1DEXJ42yNhhX0bw";
-    public static void getMatch() throws IOException {
+    private static final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVhbTlfdGVzdCIsImlhdCI6MTU3MTIzOTE5NSwiZXhwIjoxNTcxMjQ2Mzk1fQ.FBatEFTh1h_MGLzM0nS0q67rpBZvzKLlbL2gXIfT84o";
+    public static ArrayList<Match> getMatch(String token) throws IOException {
         URL url = new URL(host + "/matches");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -29,11 +30,11 @@ public class ServerConnection {
                 response.append(responseLine.trim());
             }
             System.out.println(response.toString());
-            ReadJSON.readMatch(response.toString());
+            return ReadJSON.readMatch(response.toString());
         }
     }
 
-    public static Map getJSON(String token, String matchID) throws IOException {
+    public static Map getJSON(String token, int matchID) throws IOException {
         URL url = new URL(host + "/matches/" + matchID);
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -58,7 +59,7 @@ public class ServerConnection {
         }
     }
 
-    public static void postJSON(String actionString, String token, String matchID) throws IOException {
+    public static void postJSON(String actionString, String token, int matchID) throws IOException {
         URL url = new URL(host + "/matches/" + matchID + "/action");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -124,7 +125,7 @@ public class ServerConnection {
 //        ServerConnection.getJSON("206");
 //            getJSON("206");
 //            System.out.println(System.currentTimeMillis());
-            getMatch();
+//            getMatch();
         }
 
     }
